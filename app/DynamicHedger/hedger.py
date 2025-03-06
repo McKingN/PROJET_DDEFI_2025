@@ -186,6 +186,16 @@ def show():
                 <label for="riskFreeRate">Taux sans risque</label>
                 <input type="number" id="riskFreeRate" placeholder="ex: 0.05" step="0.01">
               </div>
+              <div class="input-group">
+                <label for="maturity">Maturité</label>
+                <div class="relative">
+                  <input type="date" id="maturity" value="{today_str}">
+                </div>
+              </div>
+              <div class="input-group">
+                <label for="strike">Prix d'exercice</label>
+                <input type="number" id="strike" placeholder="ex: 0.05" step="0.01">
+              </div>
             </div>
             <div id="error-message" class="error" style="display:none;">Veuillez remplir tous les champs correctement</div>
           </div>
