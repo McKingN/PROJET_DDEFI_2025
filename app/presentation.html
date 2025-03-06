@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <title>Classification d'Émotions Faciales</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      h1 {
+        color: #3366cc;
+        /* Couleur pour le titre principal */
+      }
+
+      h2 {
+        color: #33cc33;
+        /* Couleur pour les sous-titres */
+      }
+
+      h3 {
+        color: #ff9900;
+        /* Couleur pour les sous-sous-titres */
+      }
+
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      li {
+        margin-bottom: 10px;
+      }
+
+      li strong {
+        color: #cc0000;
+        /* Couleur pour les éléments forts dans la liste */
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Présentation du Projet : Classification d'Émotions Faciales</h1>
+    <strong>NB : Vous pouvez naviguer vers /docs pour tester les routes de notre API. Ci-dessous la présentation du projet</strong>
+    <p>Ce projet vise à classer l'émotion affichée sur le visage d'une personne dans l'une des sept catégories prédéfinies à l'aide de réseaux neuronaux convolutionnels profonds...</p>
+    <h2>Méthodologie de l'Algorithme de Classification</h2>
+    <p>L'algorithme commence par utiliser la méthode de cascade de Haar pour détecter les visages dans chaque image provenant de la webcam...</p>
+    <h2>Intégration Web pour une Interaction Conviviale</h2>
+    <p>Notons également que dans le cadre de ce projet, nous avons envisagé l'utilisation d'une page HTML comportant deux cases...</p>
+    <h3>Explication des Endpoints dans le Fichier Principal du Serveur :</h3>
+      <ul>
+        <li>
+            <strong>Prédire l'Émotion depuis une Photo :</strong>
+        </li>
+        <ul>
+            <li>Type : GET</li>
+            <li>Fonction : Cet endpoint déclenche la fonction predict_from_taken_photo lorsque le client envoie une requête GET. Cette fonction utilise la caméra du dispositif pour prendre une photo et prédire l'émotion associée.</li>
+            <li>Exemple :</li>
+            <code>
+                GET /predict_from_taken_photo
+            </code>
+        </ul>
+        <li>
+            <strong>Prédire l'Émotion depuis une Image Téléversée :</strong>
+        </li>
+        <ul>
+            <li>Type : POST</li>
+            <li>Fonction : Lorsqu'un client envoie une requête POST à cette route avec un fichier image en pièce jointe, la fonction predict_from_uploaded_image est appelée. Cette fonction stocke l'image dans le répertoire "uploaded_images" et prédit l'émotion associée.</li>
+            <li>Exemple :</li>
+            <code>
+                POST /predict_from_uploaded_image
+            </code>
+        </ul>
+        <li>
+            <strong>Métriques du Machine Learning :</strong>
+        </li>
+        <ul>
+            <li>Type : GET</li>
+            <li>Fonction : Cet endpoint évalue les métriques d'apprentissage automatique pour le modèle et met à jour les métriques concernées.</li>
+            <li>Exemple :</li>
+            <code>
+                GET /metrics_machine_learning
+            </code>
+        </ul>
+        <li>
+            <strong>/ - Page d'Accueil :</strong>
+        </li>
+        <ul>
+            <li>Type : GET</li>
+            <li>Fonction : Cette route renvoie un message de bienvenue lorsque le client accède à la racine de l'application. Elle sert de page d'accueil simple.</li>
+            <li>Exemple :</li>
+            <code>
+                GET /
+            </code>
+        </ul>
+      </ul>
+    <p>Ces routes définissent les fonctionnalités de base de l'application FastAPI, allant de la prise de photos à la prédiction d'émotion en passant par le téléversement d'images, avec une page d'accueil standard lorsqu'on accède à la racine de l'application.</p>
+  </body>
+</html>
+    

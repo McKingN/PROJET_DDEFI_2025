@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction d'Emotions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #dcdcdc; /* Gris clair */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #container {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #dcdcdc; /* Gris clair */
+            color: black; /* Texte en noir */
+        }
+
+        #camera {
+            display: none; /* Caméra initialement cachée */
+            width: 100%;
+            max-width: 600px;
+            margin: 20px 0;
+        }
+
+        #capture-btn {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #upload-btn {
+            position: relative;
+            overflow: hidden;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        #file-input {
+            position: absolute;
+            font-size: 100px;
+            right: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        #upload-icon {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        #upload-text {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+
+        #image-preview {
+            margin-top: 20px;
+            max-width: 100%;
+            height: auto;
+            display: none;
+            border: 2px solid #4caf50;
+            border-radius: 5px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        #camera-icon {
+            width: 30px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        #emotion-frame {
+            background-color: #cfe2f3; /* Belge clair */
+            color: black; /* Texte en noir */
+            border: 4px solid black; /* Bordure noire */
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        #emotion-text {
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1 style="font-weight: bold;">Prédiction d'Humeur</h1>
+        <img id="camera-icon" src="camera-icon.png" alt="Appareil photo" onclick="startCamera()">
+        <video id="camera" autoplay></video>
+        <button id="capture-btn" onclick="capturePhoto()">
+            Capturer une photo
+        </button>
+        <label id="upload-btn" for="file-input">
+            <div id="upload-icon">&#x21AA;</div>
+            <div id="upload-text">Upload un fichier</div>
+        </label>
+        <input type="file" id="file-input" accept="image/*" onchange="previewFile()">
+        <img id="image-preview" src="#" alt="Aperçu de l'image" />
+        <div id="result"></div>
+        <div id="emotion-frame">
+            <p id="emotion-text">Emotion détectée</p>
+        </div>
+    </div>
+
+    <script>
+        var video = document.getElementById('camera');
+
+        function startCamera(callback) {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function (stream) {
+                    video.srcObject = stream;
+                    video.style.display = 'block'; // Afficher la caméra lorsque démarrée
+                    callback;
+                })
+                .catch(function (error) {
+                    console.error('Erreur lors de l\'accès à la caméra:', error);
+                });
+        }
+
+        function capturePhoto() {
+            var canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Afficher l'aperçu de la photo capturée
+            document.getElementById('image-preview').style.display = 'block';
+            document.getElementById('image-preview').setAttribute('src', canvas.toDataURL('image/png'));
+            callback();
+        }
+
+        function callback(){
+            // Arrêter le flux vidéo
+            videoStream.getTracks().forEach(function(track) {
+                track.stop();
+            });
+            video.style.display = 'none'; // Cacher la caméra
+        }
+
+        function previewFile() {
+            var fileInput = document.getElementById('file-input');
+            var previewImage = document.getElementById('image-preview');
+            var file = fileInput.files[0];
+
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    previewImage.style.display = 'block';
+                    previewImage.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+</body>
+</html>
