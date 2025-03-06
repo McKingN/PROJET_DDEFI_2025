@@ -8,8 +8,7 @@ def is_valid_ticker(ticker: str) -> bool:
     """
     try:
         # On récupère l'historique sur 1 jour
-        tickerD = yf.Ticker(ticker)
-        data = yf.download(str(ticker), start="2025-01-01", end="2025-01-20")
+        data = yf.download("AAPL", start="2024-01-01", end="2025-01-01")
         print(data)
         # Si le DataFrame est vide, on suppose que le ticker est invalide
         return not data.empty
