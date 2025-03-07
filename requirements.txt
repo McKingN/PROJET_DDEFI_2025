@@ -2,9 +2,8 @@ fastapi==0.115.10
 uvicorn==0.34.0
 joblib==1.4.2
 pandas==2.2.3
-numpy==2.2.3
 prometheus-client==0.21.1
 httpx==0.25.2
 pytest==7.4.3
-keras==2.14.0
+keras==3.5.0
 streamlit==1.43.0
