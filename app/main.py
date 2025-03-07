@@ -1,7 +1,9 @@
 
+import codecs
+import os
 from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import Response
+from fastapi.responses import HTMLResponse, Response
 from pydantic import BaseModel
 from utils.simulate import apply_model
 import uvicorn
@@ -38,7 +40,20 @@ class SimulationInput(BaseModel):
     rebalancing_freq: float
     current_underlying_weight: float
     current_cash: float
-
+@app.get("/", response_class=HTMLResponse)
+async def front_root():
+    """
+    Cet endpoint permet de retourner une page html qui est une 
+    application frontend utilisant notre API. Nous n'utilisons pas streamlit pour des chois de design.
+    Returns:
+        HTMLResponse: The HTML content with a status code of 200 (OK).
+    NB : Cette route est toujours en cours de développement.
+    """
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    PRESENTATION_HTML_PATH = os.path.join(BASE_DIR, 'app//presentation.html')
+    with codecs.open(PRESENTATION_HTML_PATH, 'r', 'utf-8') as f:
+        html_content = f.read()
+    return HTMLResponse(content=html_content, status_code=200)
 @app.get("/validate_ticker/{ticker}")
 def validate_ticker(ticker: str):
     # Incrémenter les compteurs

@@ -1,99 +1,75 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8">
-    <title>Classification d'Émotions Faciales</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-      }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Hedger</title>
+  <style>
+    /* Fond global avec un dégradé léger */
+    body {
+      background: linear-gradient(135deg, #f6f9fc, #e9eff5);
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+    /* Conteneur principal avec ombre et bord arrondi */
+    .main-container {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      margin: 20px auto;
+      max-width: 800px;
+    }
+    /* Style du titre principal */
+    .main-header {
+      text-align: center;
+      font-size: 2.5em;
+      color: #131CC9;
+      margin-bottom: 20px;
+    }
+    /* Style pour les sous-titres importants (en bleu nuit) */
+    .important-subtitle {
+      color: #000080;
+      font-size: 1.8em;
+      font-weight: bold;
+      border-bottom: 2px solid #E3B505;
+      padding-bottom: 5px;
+      margin-top: 30px;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <div class="main-header">Accueil</div>
+    <p>Bienvenue sur la page d'accueil de l'application <strong>Dynamic Hedger</strong>.</p>
+    <p>
+      Cette application permet d'obtenir les quantités d'actifs sous-jacents et d'actifs sans risques pour constituer un portefeuille de réplication, 
+      afin de couvrir une position directionnelle sur un call européen.
+    </p>
 
-      h1 {
-        color: #3366cc;
-        /* Couleur pour le titre principal */
-      }
+    <p class="important-subtitle">Description du Modèle</p>
+    <p>
+      Ce modèle utilise un réseau de neurones LSTM (Long Short-Term Memory) pour optimiser les stratégies de couverture (hedging) d'options financières. 
+      L'objectif principal est de <strong>minimiser le risque</strong> de la stratégie de couverture en optimisant le CVaR (Conditional Value at Risk) plutôt que la variance.
+    </p>
 
-      h2 {
-        color: #33cc33;
-        /* Couleur pour les sous-titres */
-      }
+    <p class="important-subtitle">Avantages par rapport au modèle Black-Scholes</p>
+    <ul>
+      <li><strong>Meilleure performance dans des marchés non-gaussiens</strong> : Le modèle LSTM capture des dynamiques de marché plus complexes et non linéaires.</li>
+      <li><strong>Adaptation aux frictions du marché</strong> : Il prend en compte les coûts de transaction et autres contraintes réelles du marché.</li>
+      <li><strong>Optimisation directe de la métrique de risque</strong> : Le modèle optimise directement le CVaR, offrant ainsi une meilleure gestion du risque.</li>
+      <li><strong>Absence d'hypothèses restrictives</strong> : Contrairement à Black-Scholes, il ne nécessite pas d'hypothèses sur la distribution des rendements.</li>
+    </ul>
 
-      h3 {
-        color: #ff9900;
-        /* Couleur pour les sous-sous-titres */
-      }
+    <p class="important-subtitle">Architecture du Modèle</p>
+    <p>
+      Le modèle repose sur un réseau LSTM multicouche qui reçoit en entrée l'historique des prix. 
+      En sortie, il génère les ratios de couverture optimaux (deltas) pour ajuster dynamiquement le portefeuille de réplication.
+    </p>
 
-      ul {
-        list-style-type: none;
-        padding: 0;
-      }
-
-      li {
-        margin-bottom: 10px;
-      }
-
-      li strong {
-        color: #cc0000;
-        /* Couleur pour les éléments forts dans la liste */
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Présentation du Projet : Classification d'Émotions Faciales</h1>
-    <strong>NB : Vous pouvez naviguer vers /docs pour tester les routes de notre API. Ci-dessous la présentation du projet</strong>
-    <p>Ce projet vise à classer l'émotion affichée sur le visage d'une personne dans l'une des sept catégories prédéfinies à l'aide de réseaux neuronaux convolutionnels profonds...</p>
-    <h2>Méthodologie de l'Algorithme de Classification</h2>
-    <p>L'algorithme commence par utiliser la méthode de cascade de Haar pour détecter les visages dans chaque image provenant de la webcam...</p>
-    <h2>Intégration Web pour une Interaction Conviviale</h2>
-    <p>Notons également que dans le cadre de ce projet, nous avons envisagé l'utilisation d'une page HTML comportant deux cases...</p>
-    <h3>Explication des Endpoints dans le Fichier Principal du Serveur :</h3>
-      <ul>
-        <li>
-            <strong>Prédire l'Émotion depuis une Photo :</strong>
-        </li>
-        <ul>
-            <li>Type : GET</li>
-            <li>Fonction : Cet endpoint déclenche la fonction predict_from_taken_photo lorsque le client envoie une requête GET. Cette fonction utilise la caméra du dispositif pour prendre une photo et prédire l'émotion associée.</li>
-            <li>Exemple :</li>
-            <code>
-                GET /predict_from_taken_photo
-            </code>
-        </ul>
-        <li>
-            <strong>Prédire l'Émotion depuis une Image Téléversée :</strong>
-        </li>
-        <ul>
-            <li>Type : POST</li>
-            <li>Fonction : Lorsqu'un client envoie une requête POST à cette route avec un fichier image en pièce jointe, la fonction predict_from_uploaded_image est appelée. Cette fonction stocke l'image dans le répertoire "uploaded_images" et prédit l'émotion associée.</li>
-            <li>Exemple :</li>
-            <code>
-                POST /predict_from_uploaded_image
-            </code>
-        </ul>
-        <li>
-            <strong>Métriques du Machine Learning :</strong>
-        </li>
-        <ul>
-            <li>Type : GET</li>
-            <li>Fonction : Cet endpoint évalue les métriques d'apprentissage automatique pour le modèle et met à jour les métriques concernées.</li>
-            <li>Exemple :</li>
-            <code>
-                GET /metrics_machine_learning
-            </code>
-        </ul>
-        <li>
-            <strong>/ - Page d'Accueil :</strong>
-        </li>
-        <ul>
-            <li>Type : GET</li>
-            <li>Fonction : Cette route renvoie un message de bienvenue lorsque le client accède à la racine de l'application. Elle sert de page d'accueil simple.</li>
-            <li>Exemple :</li>
-            <code>
-                GET /
-            </code>
-        </ul>
-      </ul>
-    <p>Ces routes définissent les fonctionnalités de base de l'application FastAPI, allant de la prise de photos à la prédiction d'émotion en passant par le téléversement d'images, avec une page d'accueil standard lorsqu'on accède à la racine de l'application.</p>
-  </body>
+    <p>Utilisez le menu latéral pour naviguer entre les différentes fonctionnalités de l'application.</p>
+  </div>
+</body>
 </html>
-    
