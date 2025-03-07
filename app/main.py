@@ -125,17 +125,19 @@
 # if __name__ == "__main__":
 #     uvicorn.run("main:app", host="127.0.0.1", port=5000, reload=True)
 
-
 from fastapi import FastAPI
 from pydantic import BaseModel
+from utils.simulate import apply_model
 import uvicorn
+import datetime
 import yfinance as yf
+
+# Import de votre fonction apply_model
+# from utils.apply_model import apply_model
 
 from utils.validate_ticker import is_valid_ticker
 
 app = FastAPI()
-
-
 
 class SimulationInput(BaseModel):
     ticker: str
@@ -144,6 +146,9 @@ class SimulationInput(BaseModel):
     date: str
     maturityDate: str
     strike: float
+    rebalancing_freq : float
+    current_underlying_weight : float
+    current_cash : float
 
 @app.get("/validate_ticker/{ticker}")
 def validate_ticker(ticker: str):
@@ -158,23 +163,37 @@ def validate_ticker(ticker: str):
 @app.post("/simulate")
 def simulate(params: SimulationInput):
     """
-    Exemple de simulation qui renvoie 2 valeurs,
-    à remplacer par votre logique métier.
+    Lance la simulation en appelant la fonction apply_model.
     """
-    # On vérifie d'abord si le ticker est valide
+    # Vérification de la validité du ticker
     if not is_valid_ticker(params.ticker):
         return {"error": "Ticker invalide"}
 
-    # ----- Zone de calcul / simulation -----
-    # Exemple purement fictif :
-    result05 = 7.23  # Valeur "05 underlying" calculée
-    result06 = 8.91  # Valeur "06 underlying" calculée
-    # --------------------------------------
+    # Conversion des dates en objets datetime
+    today = datetime.datetime.strptime(params.date, "%m/%d/%Y")
+    maturity_dt = datetime.datetime.strptime(params.maturityDate, "%m/%d/%Y")
 
-    return {
-        "result05": result05,
-        "result06": result06
-    }
+    # Appel à votre fonction apply_model (à adapter selon vos besoins exacts)
+    prediction = apply_model(
+        ticker=params.ticker,
+        start_date=today.strftime("%m/%d/%Y"),
+        maturity_date=maturity_dt.strftime("%m/%d/%Y"),
+        option_quantity=params.quantity,
+        strike=params.strike,
+        rebalancing_freq=12,
+        current_weights={params.ticker: params.current_underlying_weight},  
+        cash_account=params.current_cash,
+        trained_model_path=""
+    )
+    if "error" in prediction:
+        return {
+        "Error": prediction["error"]
+        }
+    else:
+    # On renvoie simplement la prédiction dans la réponse
+        return {
+        "prediction ": prediction
+        }
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="127.0.0.1", port=5000, reload=True)

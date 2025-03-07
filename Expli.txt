@@ -1,0 +1,22 @@
+-sidebar bg : #ECECFF
+-background default : #FAFAFF
+-Default text color : black
+-theme colors : #E3B505 and #131CC9
+virtual\Scripts\activate
+.\virtual\Scripts\Activate.ps1
+
+Pour la fonction de backtest
+
+Voici ce que je te donne en input :
+-ticker
+-Date début: format mm/jj/aaaa
+-Date de maturité : format mm/jj/aaaa
+-Quantité d'options : number
+-Taux sans risque de mon actif risk-free
+-Strike de l'option :number
+-frequence de rebalancement : 12^par defaut
+-poids actuels de sous jacents et de l'actif risk-free dans son portefeuille de replication
+
+
+Et en sortie je veux les statistiques pour LSTM et BS.
+Il s'agit concrètements des dataframes utils que je vais plotter pour comparer les deux strat
