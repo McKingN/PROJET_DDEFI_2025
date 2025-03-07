@@ -13,9 +13,7 @@ Organisation du projet :
 
 - Le dossier [app](app) contient tous les fichiers relatives à notr application API.
 
-- Le dossier [datas](datas) contient les données utilisées dans le cadre de l'entrainement et du test de notre modèle.
-
-- Le dossier [uploaded_images](uploaded_images) est un dossier server-bdd qui où on sauvegarde les images prises ou téléversées afin de les traiter par le model.
+- Le dossier [data](data) contient les données utilisées dans le cadre de l'entrainement et du test de notre modèle.
 
 - Le dossier [grafana](grafana) contient les configurations du tendem grafana.
 
