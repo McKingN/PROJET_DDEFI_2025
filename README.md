@@ -36,6 +36,7 @@ docker-compose down
 ```
 
 Accéder à la page de monitoring Grafana via localhost:3000 (ou votre ip locale).
+Accéder à la page de monitoring Prometheus via localhost:9090 (ou votre ip locale).
 
 ```
 Utiliser identifiant : admin, mot de passe : grafana pour l'authentification.
@@ -55,8 +56,4 @@ Voici ci-dessous quelques images de l'évolution des métriques scrapées sur gr
 ![](monitoring/grafana/Sad_visuel.png)
 ![](monitoring/grafana/Surprised_visuel.png)
 
-Accéder à la page de monitoring Prometheus via localhost:9090 (ou votre ip locale).
-Voici ci-dessous quelques images de la présentation en Graphe sur Prometheus.
-![](monitoring/prometheus/Capture_prom1.png)
-![](monitoring/prometheus/Capture_prom2.png)
-![](monitoring/prometheus/Capture_prom3.png)
+
