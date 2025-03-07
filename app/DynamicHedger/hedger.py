@@ -3,7 +3,7 @@ import streamlit.components.v1 as components
 from datetime import datetime
 
 def show():
-    today_str = datetime.today().isoformat().split("T")[0]
+    today_str = datetime.today().strftime("%Y-%m-%d")
     html_code = f"""
     <!DOCTYPE html>
     <html lang="fr">
@@ -60,9 +60,7 @@ def show():
         input.valid {{
           border-color: green;
         }}
-        /* Pour l'input date, on garde l'apparence native */
-        input[type="date"] {{
-        }}
+        input[type="date"] {{}}
         .relative {{
           position: relative;
         }}
@@ -80,7 +78,7 @@ def show():
           margin-top: 10px;
           text-align: center;
         }}
-        /* Divider jaune entre la partie inputs et simulation */
+        /* Divider jaune */
         .divider {{
           height: 2px;
           background-color: #E3B505;
@@ -144,9 +142,6 @@ def show():
           margin-bottom: 10px;
           text-align: left;
         }}
-        .result-item:nth-child(2) {{
-          border-color: #131CC9;
-        }}
         .reset-button {{
           background-color: #E3B505;
           color: black;
@@ -187,20 +182,32 @@ def show():
                 <input type="number" id="riskFreeRate" placeholder="ex: 0.05" step="0.01">
               </div>
               <div class="input-group">
-                <label for="maturity">Maturité</label>
+                <label for="maturityDate">Maturité</label>
                 <div class="relative">
-                  <input type="date" id="maturity" value="{today_str}">
+                  <input type="date" id="maturityDate" value="{today_str}">
                 </div>
               </div>
               <div class="input-group">
                 <label for="strike">Prix d'exercice</label>
-                <input type="number" id="strike" placeholder="ex: 0.05" step="0.01">
+                <input type="number" id="strike" placeholder="ex: 150.0" step="0.01">
+              </div>
+              <div class="input-group">
+                <label for="rebalancing_freq">Fréquence de rééquilibrage</label>
+                <input type="number" id="rebalancing_freq" placeholder="ex: 12" step="1">
+              </div>
+              <div class="input-group">
+                <label for="current_underlying_weight">Poids actuel de l'underlying</label>
+                <input type="number" id="current_underlying_weight" placeholder="ex: 0.5" step="0.01">
+              </div>
+              <div class="input-group">
+                <label for="current_cash">Cash actuel</label>
+                <input type="number" id="current_cash" placeholder="ex: 1000" step="any">
               </div>
             </div>
             <div id="error-message" class="error" style="display:none;">Veuillez remplir tous les champs correctement</div>
           </div>
         </div>
-        <!-- Divider jaune avec marges égales -->
+        <!-- Divider jaune -->
         <div class="divider"></div>
         <!-- Section de simulation et résultats -->
         <div class="simulation-section">
@@ -208,74 +215,168 @@ def show():
             <button id="simulate-button" class="button" disabled>Lancer simulation</button>
           </div>
           <div id="results-view" class="results-view" style="display:none;">
-            <div class="result">
-              <div class="result-item">05 underlying</div>
-              <div class="result-item">06 underlying</div>
-            </div>
+            <div id="results-container"></div>
             <button id="reset-button" class="reset-button">Faire une nouvelle simulation</button>
           </div>
         </div>
       </div>
       <script>
-        // Définir la date par défaut sur aujourd'hui
         document.addEventListener("DOMContentLoaded", function() {{
           document.getElementById("date").value = "{today_str}";
+          document.getElementById("maturityDate").value = "{today_str}";
         }});
-        // Récupérer les éléments du formulaire
+
+        const apiBaseUrl = "https://opti-hedge-backend.onrender.com";
         const tickerInput = document.getElementById("ticker");
         const quantityInput = document.getElementById("quantity");
         const dateInput = document.getElementById("date");
         const riskFreeRateInput = document.getElementById("riskFreeRate");
+        const maturityDateInput = document.getElementById("maturityDate");
+        const strikeInput = document.getElementById("strike");
+        const rebalancingInput = document.getElementById("rebalancing_freq");
+        const underlyingWeightInput = document.getElementById("current_underlying_weight");
+        const cashInput = document.getElementById("current_cash");
+
         const simulateButton = document.getElementById("simulate-button");
         const tickerValidIndicator = document.getElementById("ticker-valid");
         const errorMessage = document.getElementById("error-message");
 
         let isTickerValid = false;
         let tickerTimeout;
+
         tickerInput.addEventListener("input", function() {{
           clearTimeout(tickerTimeout);
           tickerTimeout = setTimeout(() => {{
-            if (tickerInput.value.trim().length >= 2) {{
-              isTickerValid = true;
-              tickerInput.classList.add("valid");
-              tickerValidIndicator.style.display = "inline";
+            if(tickerInput.value.trim().length >= 2) {{
+              // Appel à l'API pour valider le ticker
+              fetch(apiBaseUrl + "/validate_ticker/" + encodeURIComponent(tickerInput.value.trim()))
+                .then(response => response.json())
+                .then(data => {{
+                  console.log("Réponse API pour le ticker:", data);
+                  if(data.valid) {{
+                    isTickerValid = true;
+                    tickerInput.classList.add("valid");
+                    tickerValidIndicator.style.display = "inline";
+                  }} else {{
+                    isTickerValid = false;
+                    tickerInput.classList.remove("valid");
+                    tickerValidIndicator.style.display = "none";
+                  }}
+                  validateForm();
+                }})
+                .catch(err => {{
+                  console.error("Erreur lors de la validation du ticker:", err);
+                  isTickerValid = false;
+                  tickerInput.classList.remove("valid");
+                  tickerValidIndicator.style.display = "none";
+                  validateForm();
+                }});
             }} else {{
               isTickerValid = false;
               tickerInput.classList.remove("valid");
               tickerValidIndicator.style.display = "none";
+              validateForm();
             }}
-            validateForm();
           }}, 500);
         }});
-        [quantityInput, dateInput, riskFreeRateInput].forEach(input => {{
+
+        [quantityInput, dateInput, riskFreeRateInput, maturityDateInput, strikeInput, rebalancingInput, underlyingWeightInput, cashInput].forEach(input => {{
           input.addEventListener("input", validateForm);
         }});
+
         function validateForm() {{
           const isQuantityValid = quantityInput.value.trim() !== "";
           const isDateValid = dateInput.value.trim() !== "";
           const isRiskFreeRateValid = riskFreeRateInput.value.trim() !== "";
-          const isFormValid = isTickerValid && isQuantityValid && isDateValid && isRiskFreeRateValid;
+          const isMaturityValid = maturityDateInput.value.trim() !== "";
+          const isStrikeValid = strikeInput.value.trim() !== "";
+          const isRebalancingValid = rebalancingInput.value.trim() !== "";
+          const isUnderlyingWeightValid = underlyingWeightInput.value.trim() !== "";
+          const isCashValid = cashInput.value.trim() !== "";
+          const isFormValid = isTickerValid && isQuantityValid && isDateValid && isRiskFreeRateValid &&
+                              isMaturityValid && isStrikeValid && isRebalancingValid && isUnderlyingWeightValid && isCashValid;
           simulateButton.disabled = !isFormValid;
           errorMessage.style.display = isFormValid ? "none" : "block";
         }}
+
+        function formatDate(dateStr) {{
+          // Convertir "YYYY-MM-DD" en "MM/DD/YYYY"
+          const parts = dateStr.split("-");
+          return parts[1] + "/" + parts[2] + "/" + parts[0];
+        }}
+
         simulateButton.addEventListener("click", function() {{
-          if (simulateButton.disabled) return;
+          if(simulateButton.disabled) return;
           simulateButton.disabled = true;
           simulateButton.innerHTML = '<span class="spinner"></span> Simulation en cours...';
-          setTimeout(() => {{
-            document.getElementById("simulate-view").style.display = "none";
-            document.getElementById("results-view").style.display = "block";
-          }}, 2000);
+
+          // Préparation des données à envoyer
+          const payload = {{
+            ticker: tickerInput.value.trim(),
+            quantity: parseInt(quantityInput.value),
+            riskFreeRate: parseFloat(riskFreeRateInput.value),
+            date: formatDate(dateInput.value),
+            maturityDate: formatDate(maturityDateInput.value),
+            strike: parseFloat(strikeInput.value),
+            rebalancing_freq: parseFloat(rebalancingInput.value),
+            current_underlying_weight: parseFloat(underlyingWeightInput.value),
+            current_cash: parseFloat(cashInput.value)
+          }};
+
+          fetch(apiBaseUrl + "/simulate", {{
+            method: "POST",
+            headers: {{
+              "Content-Type": "application/json"
+            }},
+            body: JSON.stringify(payload)
+          }})
+          .then(response => response.json())
+          .then(data => {{
+            simulateButton.innerHTML = 'Lancer simulation';
+            if(data.error || data.Error) {{
+              displayResults({{ error: data.error || data.Error }});
+            }} else if(data["prediction "]) {{
+              displayResults(data["prediction "]);
+            }} else {{
+              displayResults({{ error: "Réponse inattendue de l'API" }});
+            }}
+          }})
+          .catch(err => {{
+            console.error("Erreur lors de la simulation:", err);
+            simulateButton.innerHTML = 'Lancer simulation';
+            displayResults({{ error: "Erreur lors de la simulation" }});
+          }});
         }});
+
+        function displayResults(resultData) {{
+          document.getElementById("simulate-view").style.display = "none";
+          document.getElementById("results-view").style.display = "block";
+          const resultsContainer = document.getElementById("results-container");
+          resultsContainer.innerHTML = "";
+          if(resultData.error) {{
+            const errorDiv = document.createElement("div");
+            errorDiv.className = "result";
+            errorDiv.textContent = resultData.error;
+            resultsContainer.appendChild(errorDiv);
+          }} else {{
+            for(const key in resultData) {{
+              const itemDiv = document.createElement("div");
+              itemDiv.className = "result-item";
+              itemDiv.textContent = key + ": " + resultData[key];
+              resultsContainer.appendChild(itemDiv);
+            }}
+          }}
+        }}
+
         document.getElementById("reset-button").addEventListener("click", function() {{
           document.getElementById("simulate-view").style.display = "block";
           document.getElementById("results-view").style.display = "none";
           simulateButton.innerHTML = 'Lancer simulation';
+          simulateButton.disabled = false;
           validateForm();
         }});
       </script>
     </body>
     </html>
     """
-    components.html(html_code, height=700, scrolling=True)
-
+    components.html(html_code, height=800, scrolling=True)
