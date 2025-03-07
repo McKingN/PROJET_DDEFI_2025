@@ -1,5 +1,5 @@
 groups:
-  - name: Facial emotion recognition Server Health
+  - name: OptiHedge Server Health
     rules:
       - alert: unable to gather metrics
         expr: scrape_samples_scraped{instance=~"server.*"} == 0

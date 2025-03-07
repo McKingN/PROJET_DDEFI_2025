@@ -50,7 +50,7 @@ async def front_root():
     NB : Cette route est toujours en cours de développement.
     """
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    PRESENTATION_HTML_PATH = os.path.join(BASE_DIR, 'app//presentation.html')
+    PRESENTATION_HTML_PATH = os.path.join(BASE_DIR, 'presentation.html')
     with codecs.open(PRESENTATION_HTML_PATH, 'r', 'utf-8') as f:
         html_content = f.read()
     return HTMLResponse(content=html_content, status_code=200)
