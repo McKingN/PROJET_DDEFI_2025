@@ -1,4 +1,6 @@
-import yfinance as yf
+# import yfinance as yf
+
+from utils.parquetage import afficher_donnees_ticker
 
 def is_valid_ticker(ticker: str) -> bool:
     """
@@ -8,8 +10,8 @@ def is_valid_ticker(ticker: str) -> bool:
     """
     try:
         # On récupère l'historique sur 1 jour
-        data = yf.download("AAPL", start="2024-01-01", end="2025-01-01")
-        print(data)
+        data = afficher_donnees_ticker(ticker)
+        # print(data)
         # Si le DataFrame est vide, on suppose que le ticker est invalide
         return not data.empty
     except Exception:
