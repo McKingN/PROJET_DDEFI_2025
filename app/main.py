@@ -12,7 +12,7 @@ import yfinance as yf
 from utils.validate_ticker import is_valid_ticker
 
 # Import des métriques Prometheus
-from prometheus_client import Counter, generate_latest, CONTENT_TYPE_LATEST
+from prometheus_client import Counter, generate_latest, CONTENT_TYPE_LATEST, make_asgi_app
 
 # Déclaration des compteurs
 TOTAL_REQUESTS = Counter('total_requests', 'Nombre total de requêtes')
@@ -21,7 +21,7 @@ SIMULATE_AAPL = Counter('simulate_aapl_requests', 'Nombre de requêtes de simula
 SIMULATE_AMZN = Counter('simulate_amzn_requests', 'Nombre de requêtes de simulation pour AMZN')
 
 app = FastAPI()
-
+app.mount("/metrics", make_asgi_app())
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # À ajuster en production
