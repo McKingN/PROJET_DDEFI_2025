@@ -1,10 +1,14 @@
+import os
 import streamlit as st
 from PIL import Image
 
 def main():
-    # Chemin vers votre logo
-    logo_path = "images/O.png"  
-    # Charger le logo avec Pillow
+    # Obtenir le répertoire courant (app/DynamicHedger)
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    # Remonter d'un niveau vers le dossier app, puis aller dans images
+    logo_path = os.path.join(current_dir, "..", "images", "O.png")
+    
+    # Charger le logo
     logo_image = Image.open(logo_path)
     
     # Configurer la page avec le logo comme icône
