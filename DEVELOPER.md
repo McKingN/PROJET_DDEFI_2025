@@ -1,48 +1,40 @@
-# Facial emotion recognition API Monitoring
+# Dynamic Hedger API Monitoring
 
-Prérequis:
-- Installer docker
+## Prérequis:
+- Installer Docker
 - Python
-- Un IDE: Vscode
-- Lire le fichier [README.md](README.md) pour connaitre la logique du projet.
+- Un IDE: VSCode
+- Lire le fichier [README.md](README.md) pour comprendre la logique du projet.
 
-
-Organisation du projet :
+## Organisation du projet :
 
 - Le dossier [.github](.github) contient le pipeline pour l'intégration continue.
+- Le dossier [app](app) contient tous les fichiers relatifs à notre application API.
+- Le dossier [datas](datas) contient les données utilisées pour l'entraînement et le test du modèle LSTM.
+- Le dossier [logs](logs) est un dossier serveur-BDD où sont sauvegardées les prédictions et performances du modèle.
+- Le dossier [grafana](grafana) contient les configurations du tandem Grafana.
+- Le dossier [prometheus](prometheus) contient les configurations du tandem Prometheus.
+- Le dossier [monitoring](monitoring) contient quelques images de l'évolution des métriques de couverture financière affichées sur Prometheus (graphiques) et sur Grafana (tableaux de bord).
 
-- Le dossier [app](app) contient tous les fichiers relatives à notr application API.
+## Quelques commandes utiles :
 
-- Le dossier [datas](datas) contient les données utilisées dans le cadre de l'entrainement et du test de notre modèle.
-
-- Le dossier [uploaded_images](uploaded_images) est un dossier server-bdd qui où on sauvegarde les images prises ou téléversées afin de les traiter par le model.
-
-- Le dossier [grafana](grafana) contient les configurations du tendem grafana.
-
-- Le dossier [prometheus](prometheus) contient les configurations du tendem prometheus.
-
-- Le dossier [monitoring](monitoring) contient quelques images de l'évolution de nos métriques sur prometheus(graph) et sur grafana(dashboard) quand nous avons déployé.
-
-Quelques commandes utiles :
-
-Pour créer une image docker de l'application api Facial emotion recognition api, dans un terminal, se placer dans le dossier du projet
-
+### Créer une image Docker de l'application API Dynamic Hedger
+Dans un terminal, se placer dans le dossier du projet :
 ```
-docker build -t facial-emotion-recognition-api:latest .
+docker build -t dynamic-hedger-api:latest .
 ```
 
-Pour démarrer tous les services de l'application dans un conteneur docker:
-
+### Démarrer tous les services de l'application dans un conteneur Docker
 ```
 docker-compose up -d
 ```
 
-En mode dev, le plus simple c'est de démarrer l'application via vscode ou pycharm, cela nous permet de debugger plus facilement si besoin.
+### Mode développement
+En mode développement, il est préférable de démarrer l'application via VSCode ou PyCharm, ce qui permet un meilleur débogage si besoin.
 
-(Attention ! Il faudra commenter le service fastapi du docker-compose qui lançait directement l'application dans docker pour que le port 5000 soit libéré.)
+**(Attention !)** Il faudra commenter le service FastAPI dans le `docker-compose.yml` qui lance directement l'application dans Docker, afin de libérer le port 5000.
 
-Si vous ne les avez pas, pour installer le tendem prometheus/grafana via docker:
-
+### Installer Prometheus et Grafana via Docker (si besoin)
 ```
 docker pull prom/prometheus
 ```
@@ -50,22 +42,20 @@ docker pull prom/prometheus
 docker pull grafana/grafana
 ```
 
-Pour démarrer le tendem prometheus/grafana:
-
+### Démarrer le tandem Prometheus/Grafana
 ```
-docker compose up 
+docker-compose up
 ```
-Pour arrêter le tendem prometheus/grafana:
 
+### Arrêter le tandem Prometheus/Grafana
 ```
 docker-compose down -v
 ```
 
-Pour supprimer tous les images et volumes entre deux compilations, effacer l'option -v
-
+### Supprimer toutes les images et volumes entre deux compilations
 ```
 docker-compose down
 ```
 
+Tout est configuré pour fonctionner avec l'application démarrée en mode développement, c'est-à-dire via PyCharm ou VSCode.
 
-Tout est configuré pour fonctionner avec l'application démarrée en mode dev, c'est à dire démrée avec Pycharm ou vscode.
