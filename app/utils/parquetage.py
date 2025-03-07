@@ -54,3 +54,28 @@ def afficher_donnees_ticker(ticker: str, dossier: str = "data") -> pd.DataFrame:
     else:
         print(f"Impossible d'afficher les données : aucune donnée n'a été trouvée ou téléchargée pour {ticker}.")
         return pd.DataFrame()  # Retourne un DataFrame vide si échec
+
+def reduire_donnees_par_dates(df: pd.DataFrame, start_date: str, end_date: str) -> pd.DataFrame:
+    """
+    Retourne un DataFrame filtré avec uniquement les données comprises entre start_date et end_date.
+    
+    Arguments:
+        df (pd.DataFrame): DataFrame complet avec l'index de type datetime.
+        start_date (str): Date de début au format "YYYY-MM-DD" ou autre format compatible.
+        end_date (str): Date de fin au format "YYYY-MM-DD" ou autre format compatible.
+        
+    Retourne:
+        pd.DataFrame: DataFrame réduit aux lignes dont l'index est entre start_date et end_date.
+    """
+    # Conversion des chaînes en datetime (si nécessaire)
+    start_dt = pd.to_datetime(start_date)
+    end_dt = pd.to_datetime(end_date)
+    
+    # On s'assure que l'index du DataFrame est de type datetime
+    if not pd.api.types.is_datetime64_any_dtype(df.index):
+        df.index = pd.to_datetime(df.index)
+    
+    # Filtrage des données entre les deux dates
+    df_reduit = df.loc[(df.index >= start_dt) & (df.index <= end_dt)]
+    
+    return df_reduit
