@@ -3,7 +3,7 @@ from PIL import Image
 
 def main():
     # Chemin vers votre logo
-    logo_path = "C:\\Users\\McKing.DESKTOP-4Q7G3QP\\Documents\\GitHub\\3A Marseille\\PROJET_DDEFI_2025\\app\\images\\O.png"  
+    logo_path = "images/O.png"  
     # Charger le logo avec Pillow
     logo_image = Image.open(logo_path)
     
