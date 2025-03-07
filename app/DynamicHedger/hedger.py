@@ -212,7 +212,7 @@ def show():
         <!-- Section de simulation et résultats -->
         <div class="simulation-section">
           <div id="simulate-view" class="simulate-view">
-            <button id="simulate-button" class="button" disabled>Lancer simulation</button>
+            <button id="simulate-button" class="button" disabled>Obtenir son portefeuille de couverture</button>
           </div>
           <div id="results-view" class="results-view" style="display:none;">
             <div id="results-container"></div>
@@ -332,7 +332,7 @@ def show():
           }})
           .then(response => response.json())
           .then(data => {{
-            simulateButton.innerHTML = 'Lancer simulation';
+            simulateButton.innerHTML = 'Obtenir son portefeuille de couverture';
             if(data.error || data.Error) {{
               displayResults({{ error: data.error || data.Error }});
             }} else if(data["prediction "]) {{
@@ -343,7 +343,7 @@ def show():
           }})
           .catch(err => {{
             console.error("Erreur lors de la simulation:", err);
-            simulateButton.innerHTML = 'Lancer simulation';
+            simulateButton.innerHTML = 'Obtenir son portefeuille de couverture';
             displayResults({{ error: "Erreur lors de la simulation" }});
           }});
         }});
@@ -371,7 +371,7 @@ def show():
         document.getElementById("reset-button").addEventListener("click", function() {{
           document.getElementById("simulate-view").style.display = "block";
           document.getElementById("results-view").style.display = "none";
-          simulateButton.innerHTML = 'Lancer simulation';
+          simulateButton.innerHTML = 'Obtenir son portefeuille de couverture';
           simulateButton.disabled = false;
           validateForm();
         }});

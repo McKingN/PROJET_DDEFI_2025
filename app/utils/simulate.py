@@ -534,8 +534,8 @@ def apply_model(ticker, start_date, maturity_date, option_quantity, strike,
     print("delta :", predicted_delta)
 
     return {
-        "Underlying weight": round(predicted_delta, 2),
-        "Risk free asset rate": round(cash_final, 2),
+        "Quantité d'actif sous-jacents nécessaire": round(predicted_delta, 2),
+        "Quantité d'actif sans risque nécessaire": round(cash_final, 2),
         # "details": {
         #     "strike": round(strike, 2),
         #     "T": round(T, 4),

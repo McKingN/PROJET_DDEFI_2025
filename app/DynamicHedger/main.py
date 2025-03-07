@@ -1,21 +1,28 @@
 import streamlit as st
+from PIL import Image
 
 def main():
-    # Configuration de la page (nom, layout, etc.)
-    # Utilise un thème "de base" pour spécifier les couleurs principales
+    # Chemin vers votre logo
+    logo_path = "C:\\Users\\McKing.DESKTOP-4Q7G3QP\\Documents\\GitHub\\3A Marseille\\PROJET_DDEFI_2025\\app\\images\\O.png"  
+    # Charger le logo avec Pillow
+    logo_image = Image.open(logo_path)
+    
+    # Configurer la page avec le logo comme icône
     st.set_page_config(
-        page_title="Dynamic Hedger",
+        page_title="OptiHedge App",
         layout="wide",
-        page_icon=":chart_with_upwards_trend:"
+        page_icon=logo_image
     )
 
-
-    # -- Personnalisation supplémentaire par CSS --
-    # Ici, on précise un fond de sidebar et de la page,
-    # ainsi qu'une éventuelle couleur d'accent (#E3B505) si besoin.
+    # Personnalisation supplémentaire par CSS avec une police agrandie
     st.markdown(
         f"""
         <style>
+        /* Appliquer une taille de police agrandie à l'ensemble de l'application */
+        body, [data-testid="stAppViewContainer"], [data-testid="stSidebar"] {{
+            font-size: 18px;
+        }}
+
         /* Couleur de fond principale de l'application */
         [data-testid="stAppViewContainer"] {{
             background-color: #FAFAFF;
@@ -27,26 +34,30 @@ def main():
             background-color: #ECECFF;
         }}
 
-        /* Exemple: si vous souhaitez utiliser #E3B505 pour des titres/accents spécifiques,
-           vous pouvez cibler des classes ou des éléments particuliers. Ex : */
-        h1, h2, h3 {{
-            /* Exemple d'utilisation d'une couleur d'accent */
+        /* Exemple: utilisation d'une couleur d'accent pour les titres avec une taille de police augmentée */
+        h1 {{
             color: #131CC9;
+            font-size: 2.5em;
         }}
-
-        /* Vous pouvez aussi ajouter d'autres règles de style selon vos préférences */
+        h2, h3 {{
+            color: #131CC9;
+            font-size: 2em;
+        }}
         </style>
         """,
         unsafe_allow_html=True
     )
 
-    # Titre principal de votre application
-    st.title("Dynamic Hedger")
+    # Titre principal de l'application
+    st.title("OptiHedge")
 
-    # Création d'un menu latéral
+    # Afficher le logo dans la sidebar avec use_container_width
+    st.sidebar.image(logo_image, use_container_width=True)
+
+    # Création du menu latéral
     st.sidebar.title("Menu")
     menu = st.sidebar.radio(
-        "Navigation",
+        "Mon espace",
         ("Accueil", "Hedger", "Backtesting", "FAQ")
     )
 
