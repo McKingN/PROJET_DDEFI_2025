@@ -3,7 +3,7 @@ import os
 # import sys
 import unittest
 from fastapi.testclient import TestClient
-from app.main import app
+from main import app
 # sys.path.append(os.path.abspath('./app'))
 client = TestClient(app)
 
