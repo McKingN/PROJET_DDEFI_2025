@@ -29,4 +29,4 @@ jobs:
       # Exécuter le test contenu dans app/test_integrations.py
       - name: Run integration test
         working-directory: app
-        run: python -m unittest app/test_integrations.py
+        run: python -m unittest test_integrations.py
