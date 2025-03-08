@@ -10,6 +10,7 @@
 
 - Le dossier [.github](.github) contient le pipeline pour l'intégration continue.
 - Le dossier [app](app) contient tous les fichiers relatifs à notre application API.
+- Le sous dossier [app/DynamicHedger](app/DynamicHedger/) contient tous les fichiers relatifs à notre application frontend avec streamlit.
 - Le dossier [datas](datas) contient les données utilisées pour l'entraînement et le test du modèle LSTM.
 - Le dossier [logs](logs) est un dossier serveur-BDD où sont sauvegardées les prédictions et performances du modèle.
 - Le dossier [grafana](grafana) contient les configurations du tandem Grafana.
