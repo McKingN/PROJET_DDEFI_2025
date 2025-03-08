@@ -1,6 +1,6 @@
 #!pip install tensorflow==2.12.0
 # from utils.parquetage import afficher_donnees_ticker
-from utils.parquetage import afficher_donnees_ticker
+from app.utils.parquetage import afficher_donnees_ticker
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
