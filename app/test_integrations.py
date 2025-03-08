@@ -1,53 +1,78 @@
 import codecs
+import os
 import unittest
 from fastapi.testclient import TestClient
-from main import app  
-import os
-import httpx
+from main import app
 
 client = TestClient(app)
 
 class TestApp(unittest.TestCase):
 
-    # def test_predict_from_taken_photo(self):
-    #     # Test de la fonction predict_from_taken_photo
-    #     response = client.get("/predict_from_taken_photo")
-    #     self.assertEqual(response.status_code, 200)
-    #     if "message" in response.json():
-    #         self.assertIn(response.json()["message"], ["Aucun visage détecté de face dans l'image", "Plusieurs visages sont détectés. Veuillez mettre une image d'un seul visage"])
-    #     else:
-    #         self.assertIn("predicted_emotion", response.json())
-
-    def test_predict_from_uploaded_image(self):
-        # Test de la fonction predict_from_uploaded_image
-        with open("app/test_image.png", "rb") as file:
-            response = client.post("/predict_from_uploaded_image", files={"file": file})
-        self.assertEqual(response.status_code, 200)
-        if "message" in response.json():
-            self.assertIn(response.json()["message"], ["Aucun visage détecté de face dans l'image", "Plusieurs visages sont détectés. Veuillez mettre une image d'un seul visage"])
-        else:
-            self.assertIn("predicted_emotion", response.json())
-
-    def test_front_root(self):
-        # Test de la fonction front_root
-        response = client.get("/frontend")
-        self.assertEqual(response.status_code, 200)
-        with codecs.open("app/frontend.html", 'r', 'utf-8') as f:
-            html_content = f.read()
-        self.assertEqual(response.content.decode('utf-8'), html_content)
-
-    def test_metrics_machine_learning(self):
-        # Test de la fonction metrics_machine_learning
-        response = client.get("/metrics_machine_learning")
-        self.assertEqual(response.status_code, 200)
-
     def test_read_root(self):
-        # Test de la fonction read_root
+        # Teste la route "/" qui renvoie le contenu de presentation.html
         response = client.get("/")
         self.assertEqual(response.status_code, 200)
-        with codecs.open("app/presentation.html", 'r', 'utf-8') as f:
-            html_content = f.read()
-        self.assertEqual(response.content.decode('utf-8'), html_content)
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        presentation_path = os.path.join(base_dir, 'presentation.html')
+        with codecs.open(presentation_path, 'r', 'utf-8') as f:
+            expected_html = f.read()
+        self.assertEqual(response.content.decode('utf-8'), expected_html)
 
-# if __name__ == '__main__':
-#     unittest.main()
+    def test_validate_ticker(self):
+        # Teste la validation d'un ticker (ici "AAPL")
+        response = client.get("/validate_ticker/AAPL")
+        self.assertEqual(response.status_code, 200)
+        json_resp = response.json()
+        self.assertIn("ticker", json_resp)
+        self.assertIn("valid", json_resp)
+        # On s'attend à ce qu'AAPL soit un ticker valide
+        self.assertTrue(json_resp["valid"])
+
+    def test_simulate(self):
+        # Teste l'endpoint "/simulate"
+        payload = {
+            "ticker": "AAPL",
+            "quantity": 100,
+            "riskFreeRate": 0.05,
+            "date": "01/01/2023",
+            "maturityDate": "06/01/2023",
+            "strike": 150,
+            "rebalancing_freq": 12,
+            "current_underlying_weight": 0,
+            "current_cash": 0
+        }
+        response = client.post("/simulate", json=payload)
+        self.assertEqual(response.status_code, 200)
+        json_resp = response.json()
+        # La réponse doit contenir la clé "prediction"
+        self.assertIn("prediction", json_resp)
+
+    def test_compare_strategies(self):
+        # Teste l'endpoint "/compare_strategies"
+        payload = {
+            "ticker": "AAPL",
+            "start_date": "01/01/2023",
+            "maturity_date": "01/01/2024",
+            "quantity": 150,
+            "risk_free_rate": 0.05,
+            "strike": 100,
+            "rebalance_freq": 12,
+            "initial_weights": [0, 0]
+        }
+        response = client.post("/compare_strategies", json=payload)
+        self.assertEqual(response.status_code, 200)
+        json_resp = response.json()
+        self.assertIn("results", json_resp)
+        self.assertIn("alert", json_resp)
+        # On s'attend à ce que l'alerte soit None (aucune erreur)
+        self.assertIsNone(json_resp["alert"])
+
+    def test_metrics(self):
+        # Teste l'endpoint "/metrics" de Prometheus
+        response = client.get("/metrics")
+        self.assertEqual(response.status_code, 200)
+        # Vérifier que le contenu renvoyé contient le compteur "total_requests"
+        self.assertIn("total_requests", response.text)
+
+if __name__ == '__main__':
+    unittest.main()
