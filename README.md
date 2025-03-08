@@ -7,7 +7,7 @@
 
 ## Consultation rapide des résultats
 - Notre appli frontend est déployé avec Streamlit et disponible ici : [https://opti-hedge-front.streamlit.app/](https://opti-hedge-front.streamlit.app/)
-- Notre appli backend est déployé avec FastAPI et disponible ici : [https://opti-hedge-backend.onrender.com]
+- Notre appli backend FastAPI est déployé avec Render  et disponible ici : [https://opti-hedge-backend.onrender.com]
 - Notre github (ce dépôt) : [https://github.com/McKingN/PROJET_DDEFI_2025/](https://github.com/McKingN/PROJET_DDEFI_2025/)
 
 
