@@ -11,8 +11,8 @@
 - Le dossier [.github](.github) contient le pipeline pour l'intégration continue.
 - Le dossier [app](app) contient tous les fichiers relatifs à notre application API.
 - Le sous dossier [app/DynamicHedger](app/DynamicHedger/) contient tous les fichiers relatifs à notre application frontend avec streamlit.
-- Le dossier [datas](datas) contient les données utilisées pour l'entraînement et le test du modèle LSTM.
-- Le dossier [logs](logs) est un dossier serveur-BDD où sont sauvegardées les prédictions et performances du modèle.
+- Le dossier [datas](datas) contient les données utilisées pour le backtest du modèle LSTM en comparaison avec Black Scholes. Ce backtest est aussi ouvert à l'utilisateur final via nos applis front et back.
+- Le dossier [models](models) contient le notebook de création (entrainnement et test) du LSTM ainsi que son extraction en fichier keras
 - Le dossier [grafana](grafana) contient les configurations du tandem Grafana.
 - Le dossier [prometheus](prometheus) contient les configurations du tandem Prometheus.
 - Le dossier [monitoring](monitoring) contient quelques images de l'évolution des métriques de couverture financière affichées sur Prometheus (graphiques) et sur Grafana (tableaux de bord).
@@ -34,6 +34,27 @@ Quelques commandes utiles :
 
 Pour créer une image docker de l'application api Facial emotion recognition api, dans un terminal, se placer dans le dossier du projet
 >>>>>>> ee5d2343b21db0052366d590cafc26e4c2df9a88
+
+### Execution en local sans docker 
+- Installer les dépendances
+```
+pip install -r requirements.txt
+```
+
+- Aller dans le dossier app
+```
+cd app
+```
+- Lancer l'application backend (FastAPI)
+```
+uvicorn main:app --reload
+```
+- Lancer l'application frontend (Streamlit)
+```
+cd DynamicHedger
+streamlit run main.py
+```
+### Avec Docker
 
 ### Créer une image Docker de l'application API Dynamic Hedger
 Dans un terminal, se placer dans le dossier du projet :

@@ -7,7 +7,7 @@ scrape_configs:
   - job_name: 'my-app'
     scrape_interval: 5s
     static_configs:
-      - targets: [host.docker.internal:5000]
+      - targets: ["http://opti-hedge-backend.onrender.com"]
     
   - job_name: 'fastapi-metrics'
     metrics_path: '/metrics'
