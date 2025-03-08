@@ -9,7 +9,7 @@ from app.utils.backtesting import compare_strategies   # Import de la fonction c
 import uvicorn
 import datetime
 import yfinance as yf
-from utils.validate_ticker import is_valid_ticker
+from app.utils.validate_ticker import is_valid_ticker
 
 # Import des métriques Prometheus
 from prometheus_client import Counter, generate_latest, CONTENT_TYPE_LATEST, make_asgi_app
