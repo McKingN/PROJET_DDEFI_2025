@@ -4,8 +4,8 @@ from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, Response
 from pydantic import BaseModel
-from utils.simulate import apply_model
-from utils.backtesting import compare_strategies   # Import de la fonction compare_strategies
+from app.utils.simulate import apply_model
+from app.utils.backtesting import compare_strategies   # Import de la fonction compare_strategies
 import uvicorn
 import datetime
 import yfinance as yf
