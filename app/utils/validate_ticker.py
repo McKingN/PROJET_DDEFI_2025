@@ -1,6 +1,6 @@
 # import yfinance as yf
 
-from app.utils.parquetage import afficher_donnees_ticker
+from utils.parquetage import afficher_donnees_ticker
 
 def is_valid_ticker(ticker: str) -> bool:
     """

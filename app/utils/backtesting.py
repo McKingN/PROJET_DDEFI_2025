@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from app.utils.parquetage import afficher_donnees_ticker, reduire_donnees_par_dates
+from utils.parquetage import afficher_donnees_ticker, reduire_donnees_par_dates
 import yfinance as yf
 import matplotlib.pyplot as plt
 from datetime import datetime

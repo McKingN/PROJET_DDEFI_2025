@@ -4,12 +4,12 @@ from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, Response
 from pydantic import BaseModel
-from app.utils.simulate import apply_model
-from app.utils.backtesting import compare_strategies   # Import de la fonction compare_strategies
+from utils.simulate import apply_model
+from utils.backtesting import compare_strategies   # Import de la fonction compare_strategies
 import uvicorn
 import datetime
 import yfinance as yf
-from app.utils.validate_ticker import is_valid_ticker
+from utils.validate_ticker import is_valid_ticker
 
 # Import des métriques Prometheus
 from prometheus_client import Counter, generate_latest, CONTENT_TYPE_LATEST, make_asgi_app
