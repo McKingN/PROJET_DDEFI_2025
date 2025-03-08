@@ -5,6 +5,12 @@
 - Python 3.11.4
 - Un IDE : VS Code
 
+## Consultation rapide des résultats
+- Notre appli frontend est déployé avec Streamlit et disponible ici : [https://opti-hedge-front.streamlit.app/](https://opti-hedge-front.streamlit.app/)
+- Notre appli backend est déployé avec FastAPI et disponible ici : [https://opti-hedge-backend.onrender.com]
+- Notre github (ce dépôt) : [https://github.com/McKingN/PROJET_DDEFI_2025/](https://github.com/McKingN/PROJET_DDEFI_2025/)
+
+
 NB : Consultez le fichier [DEVELOPER.md](DEVELOPER.md) pour comprendre l'architecture du projet.
 
 Après exécution (ci-dessous), accéder à la page d'accueil de l'application via [localhost:5000](http://localhost:5000) (ou votre IP locale).
@@ -78,18 +84,18 @@ Accéder à la page de monitoring Prometheus via [localhost:9090](http://localho
 
 
 Voici ci-dessous quelques images de l'évolution des métriques scrapées sur grafana.
-![](monitoring/grafana/Angry_visuel.png)
-![](monitoring/grafana/Courbe_Fearful_visuel.png)
-![](monitoring/grafana/Courbe_surprised_visuel.png)
-![](monitoring/grafana/Fearful_visuel.png)
-![](monitoring/grafana/Fearful_visuel.png)
-![](monitoring/grafana/Happy_visuel.png)
-![](monitoring/grafana/Histogram_Happy_visuel.png)
-![](monitoring/grafana/Histogram_Sad_visuel.png)
-![](monitoring/grafana/model_precision.png)
-![](monitoring/grafana/model_recall.png)
-![](monitoring/grafana/Neutral_visuel.png)
-![](monitoring/grafana/Sad_visuel.png)
-![](monitoring/grafana/Surprised_visuel.png)
+![](monitoring/grafana/1.png)
+![](monitoring/grafana/2.png)
+![](monitoring/grafana/3.png)
+![](monitoring/grafana/4.png)
+![](monitoring/grafana/5.png)
+![](monitoring/grafana/6.png)
+![](monitoring/grafana/7.png)
+![](monitoring/grafana/8.png)
+![](monitoring/grafana/9.png)
+![](monitoring/grafana/10.png)
+![](monitoring/grafana/11.png)
+![](monitoring/grafana/12.png)
+![](monitoring/grafana/13.png)
 
 
