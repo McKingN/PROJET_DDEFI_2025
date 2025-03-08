@@ -281,7 +281,7 @@ def compare_strategies(params):
 #     plt.legend()
 #     plt.grid(True)
 #     plt.show()
-#
+
 #     # Visualisation des deltas
 #     plt.figure(figsize=(15, 5))
 #     plt.plot(results['deltas_plot_data']['dates'], results['deltas_plot_data']['lstm_deltas'], label='LSTM Delta')
@@ -290,7 +290,7 @@ def compare_strategies(params):
 #     plt.legend()
 #     plt.grid(True)
 #     plt.show()
-#
+
 #     # Affichage des métriques
 #     print("\nPerformance Metrics:")
 #     print(results['metrics'])
