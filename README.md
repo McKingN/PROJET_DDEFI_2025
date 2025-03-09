@@ -42,10 +42,6 @@ Pour supprimer toutes les images et volumes entre deux compilations, retirez l'o
 docker-compose down
 ```
 
-<<<<<<< HEAD
-Accéder à la page de monitoring Grafana via localhost:3000 (ou votre ip locale).
-Accéder à la page de monitoring Prometheus via localhost:9090 (ou votre ip locale).
-=======
 ## Description du Modèle
 
 Dynamic Hedger est une application permettant d'obtenir les quantités d'actifs sous-jacents et d'actifs sans risque pour constituer un portefeuille de réplication afin de couvrir une position directionnelle sur un call européen.
@@ -63,7 +59,7 @@ Le modèle repose sur un réseau LSTM multicouche qui reçoit en entrée l'histo
 
 ## Monitoring et Visualisation
 Accéder à la page de monitoring Grafana via [localhost:3000](http://localhost:3000) (ou votre IP locale).
->>>>>>> ee5d2343b21db0052366d590cafc26e4c2df9a88
+
 
 ```
 Utiliser identifiant : admin, mot de passe : grafana pour l'authentification.
