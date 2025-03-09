@@ -32,9 +32,6 @@
 
 Quelques commandes utiles :
 
-Pour créer une image docker de l'application api Facial emotion recognition api, dans un terminal, se placer dans le dossier du projet
->>>>>>> ee5d2343b21db0052366d590cafc26e4c2df9a88
-
 ### Execution en local sans docker 
 - Installer les dépendances
 ```
