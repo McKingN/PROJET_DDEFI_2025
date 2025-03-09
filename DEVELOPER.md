@@ -17,20 +17,7 @@
 - Le dossier [prometheus](prometheus) contient les configurations du tandem Prometheus.
 - Le dossier [monitoring](monitoring) contient quelques images de l'évolution des métriques de couverture financière affichées sur Prometheus (graphiques) et sur Grafana (tableaux de bord).
 
-<<<<<<< HEAD
 ## Quelques commandes utiles :
-=======
-- Le dossier [app](app) contient tous les fichiers relatives à notr application API.
-
-- Le dossier [data](data) contient les données utilisées dans le cadre de l'entrainement et du test de notre modèle.
-
-- Le dossier [grafana](grafana) contient les configurations du tendem grafana.
-
-- Le dossier [prometheus](prometheus) contient les configurations du tendem prometheus.
-
-- Le dossier [monitoring](monitoring) contient quelques images de l'évolution de nos métriques sur prometheus(graph) et sur grafana(dashboard) quand nous avons déployé.
-
-Quelques commandes utiles :
 
 ### Execution en local sans docker 
 - Installer les dépendances
